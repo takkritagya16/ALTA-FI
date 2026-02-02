@@ -30,6 +30,12 @@ const Header = () => {
                                 >
                                     Dashboard
                                 </Link>
+                                <Link
+                                    to="/finance"
+                                    className="text-white hover:text-primary-100 transition-colors"
+                                >
+                                    Finance
+                                </Link>
                                 <div className="flex items-center gap-3">
                                     <span className="text-primary-100 text-sm">
                                         {currentUser.email}
