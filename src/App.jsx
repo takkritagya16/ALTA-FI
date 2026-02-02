@@ -4,6 +4,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Finance from './pages/Finance';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -20,6 +21,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/finance"
+          element={
+            <ProtectedRoute>
+              <Finance />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
@@ -27,4 +36,3 @@ function App() {
 }
 
 export default App;
-
