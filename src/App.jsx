@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Finance from './pages/Finance';
+import Investments from './pages/Investments';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -29,6 +30,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/investments"
+          element={
+            <ProtectedRoute>
+              <Investments />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
@@ -36,3 +45,4 @@ function App() {
 }
 
 export default App;
+

@@ -308,6 +308,18 @@ const Dashboard = () => {
                             </div>
                             <span className="font-medium text-gray-700">View Analytics</span>
                         </Link>
+
+                        <Link
+                            to="/investments"
+                            className="flex items-center gap-3 p-4 bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-xl hover:from-indigo-100 hover:to-indigo-200 transition-all group border border-indigo-200/50"
+                        >
+                            <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-2 rounded-lg group-hover:scale-110 transition-transform shadow-md">
+                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                            </div>
+                            <span className="font-medium text-gray-700">📈 Investments</span>
+                        </Link>
                     </div>
                 </div>
 
