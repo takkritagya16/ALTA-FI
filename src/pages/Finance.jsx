@@ -7,6 +7,7 @@ import FinanceSummary from '../components/finance/FinanceSummary';
 import RulesManager from '../components/finance/RulesManager';
 import CategoryPieChart from '../components/finance/CategoryPieChart';
 import IncomeStreams from '../components/finance/IncomeStreams';
+import MonthlyAnalytics from '../components/finance/MonthlyAnalytics';
 import SMSImporter from '../components/finance/SMSImporter';
 import CSVImporter from '../components/finance/CSVImporter';
 
@@ -74,8 +75,8 @@ const Finance = () => {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${activeTab === tab.id
-                                    ? 'bg-primary-100 text-primary-700 shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                                ? 'bg-primary-100 text-primary-700 shadow-sm'
+                                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                                 }`}
                         >
                             <span>{tab.icon}</span>
@@ -114,6 +115,9 @@ const Finance = () => {
                     {/* Summary Cards */}
                     <FinanceSummary summary={summary} />
 
+                    {/* Monthly Analytics - Detailed Monthly Breakdown */}
+                    <MonthlyAnalytics transactions={transactions} />
+
                     {/* Pie Charts */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <CategoryPieChart transactions={transactions} type="income" />
@@ -121,26 +125,26 @@ const Finance = () => {
                     </div>
 
                     {/* Additional Analytics */}
-                    <div className="bg-white p-6 rounded-xl shadow-md">
+                    <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
                         <h3 className="text-xl font-bold text-gray-800 mb-4">📈 Quick Insights</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="bg-blue-50 p-4 rounded-lg">
+                            <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200/50">
                                 <p className="text-sm text-blue-600 font-medium">Total Transactions</p>
                                 <p className="text-2xl font-bold text-blue-700">{transactions.length}</p>
                             </div>
-                            <div className="bg-green-50 p-4 rounded-lg">
+                            <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border border-green-200/50">
                                 <p className="text-sm text-green-600 font-medium">Income Transactions</p>
                                 <p className="text-2xl font-bold text-green-700">
                                     {transactions.filter(t => t.type === 'income').length}
                                 </p>
                             </div>
-                            <div className="bg-red-50 p-4 rounded-lg">
+                            <div className="bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-xl border border-red-200/50">
                                 <p className="text-sm text-red-600 font-medium">Expense Transactions</p>
                                 <p className="text-2xl font-bold text-red-700">
                                     {transactions.filter(t => t.type === 'expense').length}
                                 </p>
                             </div>
-                            <div className="bg-purple-50 p-4 rounded-lg">
+                            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200/50">
                                 <p className="text-sm text-purple-600 font-medium">Avg Transaction</p>
                                 <p className="text-2xl font-bold text-purple-700">
                                     ${transactions.length > 0
