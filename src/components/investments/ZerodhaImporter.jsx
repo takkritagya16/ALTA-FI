@@ -40,6 +40,10 @@ const ZERODHA_COLUMN_MAPS = {
     }
 };
 
+// File size limit: 5MB
+const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
 const ZerodhaImporter = ({ onImportComplete, existingHoldings = [] }) => {
     const { currentUser } = useAuth();
     const [file, setFile] = useState(null);
@@ -76,6 +80,14 @@ const ZerodhaImporter = ({ onImportComplete, existingHoldings = [] }) => {
 
         if (!selectedFile.name.endsWith('.csv')) {
             setError('Please select a CSV file');
+            return;
+        }
+
+        // Check file size
+        if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+            const fileSizeMB = (selectedFile.size / (1024 * 1024)).toFixed(2);
+            setError(`File size (${fileSizeMB} MB) exceeds the ${MAX_FILE_SIZE_MB} MB limit. Please upload a smaller file.`);
+            e.target.value = '';
             return;
         }
 
@@ -316,8 +328,8 @@ const ZerodhaImporter = ({ onImportComplete, existingHoldings = [] }) => {
                         <button
                             onClick={() => setImportType('holdings')}
                             className={`flex-1 p-4 rounded-xl border-2 transition-all ${importType === 'holdings'
-                                    ? 'border-orange-500 bg-orange-50'
-                                    : 'border-gray-200 hover:border-gray-300'
+                                ? 'border-orange-500 bg-orange-50'
+                                : 'border-gray-200 hover:border-gray-300'
                                 }`}
                         >
                             <div className="text-2xl mb-2">💼</div>
@@ -327,8 +339,8 @@ const ZerodhaImporter = ({ onImportComplete, existingHoldings = [] }) => {
                         <button
                             onClick={() => setImportType('tradebook')}
                             className={`flex-1 p-4 rounded-xl border-2 transition-all ${importType === 'tradebook'
-                                    ? 'border-orange-500 bg-orange-50'
-                                    : 'border-gray-200 hover:border-gray-300'
+                                ? 'border-orange-500 bg-orange-50'
+                                : 'border-gray-200 hover:border-gray-300'
                                 }`}
                         >
                             <div className="text-2xl mb-2">📊</div>
@@ -345,7 +357,7 @@ const ZerodhaImporter = ({ onImportComplete, existingHoldings = [] }) => {
                                 Drop your Zerodha CSV file here
                             </p>
                             <p className="text-sm text-gray-500 mb-4">
-                                or click to browse
+                                or click to browse (max {MAX_FILE_SIZE_MB} MB)
                             </p>
                             <span className="inline-block px-4 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium">
                                 Select CSV File

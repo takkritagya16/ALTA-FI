@@ -3,6 +3,10 @@ import Papa from 'papaparse';
 import { addTransaction } from '../../services/finance';
 import { useAuth } from '../../hooks/useAuth';
 
+// File size limit: 5MB
+const MAX_FILE_SIZE_MB = 5;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
 const CATEGORIES = {
     income: ['Salary', 'Freelance', 'Investment', 'Gift', 'Rent Income', 'Interest', 'Dividends', 'Other'],
     expense: ['Food', 'Transportation', 'Rent', 'Utilities', 'Entertainment', 'Shopping', 'Health', 'EMI', 'Other']
@@ -25,10 +29,22 @@ const CSVImporter = ({ onImportComplete }) => {
     const [importing, setImporting] = useState(false);
     const [importStatus, setImportStatus] = useState({ success: 0, failed: 0, total: 0 });
     const [previewData, setPreviewData] = useState([]);
+    const [fileSizeError, setFileSizeError] = useState('');
 
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
+        // Check file size
+        if (file.size > MAX_FILE_SIZE_BYTES) {
+            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            setFileSizeError(`File size (${fileSizeMB} MB) exceeds the ${MAX_FILE_SIZE_MB} MB limit. Please upload a smaller file.`);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+            return;
+        }
+        setFileSizeError('');
 
         Papa.parse(file, {
             header: true,
@@ -239,6 +255,7 @@ const CSVImporter = ({ onImportComplete }) => {
         });
         setPreviewData([]);
         setImportStatus({ success: 0, failed: 0, total: 0 });
+        setFileSizeError('');
         setStep('upload');
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
@@ -261,6 +278,16 @@ const CSVImporter = ({ onImportComplete }) => {
 
             {step === 'upload' && (
                 <>
+                    {/* File Size Error Alert */}
+                    {fileSizeError && (
+                        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+                            <div className="flex items-center gap-2">
+                                <span>⚠️</span>
+                                <span>{fileSizeError}</span>
+                            </div>
+                        </div>
+                    )}
+
                     <div
                         className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer"
                         onClick={() => fileInputRef.current?.click()}
@@ -276,7 +303,7 @@ const CSVImporter = ({ onImportComplete }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
                         <p className="text-gray-600 font-medium">Click to upload or drag and drop</p>
-                        <p className="text-sm text-gray-500 mt-1">CSV files only</p>
+                        <p className="text-sm text-gray-500 mt-1">CSV files only (max {MAX_FILE_SIZE_MB} MB)</p>
                     </div>
 
                     <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg p-4">
