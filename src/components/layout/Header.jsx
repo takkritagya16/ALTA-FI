@@ -36,6 +36,12 @@ const Header = () => {
                                 >
                                     Finance
                                 </Link>
+                                <Link
+                                    to="/investments"
+                                    className="text-white hover:text-primary-100 transition-colors"
+                                >
+                                    📈 Investments
+                                </Link>
                                 <div className="flex items-center gap-3">
                                     <span className="text-primary-100 text-sm">
                                         {currentUser.email}
