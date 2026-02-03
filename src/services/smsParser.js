@@ -12,10 +12,14 @@ const SMS_PATTERNS = [
         patterns: [
             /(?:Rs\.?|INR|₹)\s*([\d,]+\.?\d*)\s*(?:has been |was )?debited/i,
             /debited\s*(?:by|with|for)?\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,
+            /Debit\s*(?:Rs\.?|INR|₹)\s*([\d,]+\.?\d*)/i,  // "Debit Rs.70.00" format
+            /A\/C\s*[Xx*]*\d+\s*Debit\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,  // "A/C X8505 Debit Rs.70.00" format
             /(?:spent|paid|purchase|payment)\s*(?:of|:)?\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,
             /withdrawal\s*(?:of)?\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,
             /(?:Rs\.?|INR|₹)\s*([\d,]+\.?\d*)\s*withdrawn/i,
             /txn\s*of\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)\s*at/i,
+            /transferred\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)\s*(?:to|from)/i,  // Transfer pattern
+            /sent\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,  // Sent money pattern
         ]
     },
     // Credit patterns
@@ -24,6 +28,8 @@ const SMS_PATTERNS = [
         patterns: [
             /(?:Rs\.?|INR|₹)\s*([\d,]+\.?\d*)\s*(?:has been |was )?credited/i,
             /credited\s*(?:by|with)?\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,
+            /Credit\s*(?:Rs\.?|INR|₹)\s*([\d,]+\.?\d*)/i,  // "Credit Rs.X" format
+            /A\/C\s*[Xx*]*\d+\s*Credit\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,  // "A/C X8505 Credit Rs.X" format
             /(?:received|deposit|transferred to you)\s*(?:of|:)?\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,
             /(?:Rs\.?|INR|₹)\s*([\d,]+\.?\d*)\s*deposited/i,
             /salary\s*(?:of)?\s*(?:Rs\.?|INR|₹)?\s*([\d,]+\.?\d*)/i,
@@ -41,10 +47,13 @@ const DATE_PATTERNS = [
 
 // Merchant/Source extraction patterns
 const MERCHANT_PATTERNS = [
-    /(?:at|to|from|@)\s+([A-Za-z0-9\s&]+?)(?:\s+on|\s+dated|\s+ref|\.|\s*$)/i,
+    /for\s+UPI\s+to\s+([A-Za-z0-9\s]+?)(?:\s+on|\s+dated|\s+ref|\.|\s*$)/i,  // "for UPI to azad kumar man" pattern
+    /(?:to|from)\s+([A-Za-z][A-Za-z0-9\s]+?)(?:\s+on|\s+dated|\s+ref|\s+via|\.|\s*$)/i,  // Generic "to/from [name]" pattern
+    /(?:at|@)\s+([A-Za-z0-9\s&]+?)(?:\s+on|\s+dated|\s+ref|\.|\s*$)/i,
     /(?:Info|Ref|VPA):\s*([A-Za-z0-9@.\-_]+)/i,
     /UPI[-\s]*(?:Ref)?[:\s]*([A-Za-z0-9]+)/i,
     /(?:merchant|vendor|payee):\s*([A-Za-z0-9\s]+)/i,
+    /(?:transferred to|paid to|sent to)\s+([A-Za-z][A-Za-z0-9\s]+?)(?:\s+on|\s+dated|\s+ref|\.|\s*$)/i,
 ];
 
 // Account number patterns
