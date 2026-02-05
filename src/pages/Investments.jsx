@@ -28,15 +28,17 @@ const Investments = () => {
     const [portfolioMetrics, setPortfolioMetrics] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
 
-    // Format currency in Indian style
+
+    // Format currency in USD for US stocks (Finnhub)
     const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-IN', {
+        return new Intl.NumberFormat('en-US', {
             style: 'currency',
-            currency: 'INR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
         }).format(amount);
     };
+
 
     // Fetch all data
     const fetchData = useCallback(async () => {

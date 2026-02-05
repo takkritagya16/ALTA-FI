@@ -227,13 +227,7 @@ const Login = () => {
                     </button>
                 </div>
 
-                {/* Footer */}
-                <p className="mt-8 text-center text-sm text-surface-500">
-                    By continuing, you agree to our{' '}
-                    <a href="#" className="text-primary-600 hover:text-primary-700 font-medium">Terms of Service</a>
-                    {' '}and{' '}
-                    <a href="#" className="text-primary-600 hover:text-primary-700 font-medium">Privacy Policy</a>
-                </p>
+
             </div>
         </div>
     );
