@@ -26,6 +26,16 @@ const Finance = () => {
     const [activeTab, setActiveTab] = useState('transactions');
     const [loading, setLoading] = useState(true);
 
+    // Format currency in Indian style
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(amount);
+    };
+
     // Fetch data function (wrapped in useCallback to be stable for useEffect)
     const fetchData = useCallback(async () => {
         if (!currentUser) return;
@@ -49,37 +59,47 @@ const Finance = () => {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
                 <div className="text-center">
-                    <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary-600 border-t-transparent mb-4"></div>
-                    <p className="text-gray-600">Loading finance data...</p>
+                    <div className="spinner w-12 h-12 border-4 border-primary-600 border-t-transparent mx-auto"></div>
+                    <p className="mt-4 text-surface-600 font-medium">Loading finance data...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="max-w-7xl mx-auto space-y-6">
+        <div className="max-w-7xl mx-auto space-y-6 animate-fade-in">
 
             {/* Page Header */}
-            <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-6 text-white shadow-xl">
-                <h1 className="text-3xl font-bold mb-2">Finance Management</h1>
-                <p className="text-primary-100">
-                    Track income, expenses, import transactions, and manage automation rules.
-                </p>
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 p-8 text-white shadow-xl shadow-primary-500/20">
+                {/* Decorative elements */}
+                <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                    <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-accent-500/20 rounded-full blur-3xl"></div>
+                </div>
+                <div className="relative z-10">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-primary-100 text-sm font-medium mb-4">
+                        <span>💳</span> Finance Management
+                    </div>
+                    <h1 className="text-3xl lg:text-4xl font-display font-bold mb-2">Manage Your Money</h1>
+                    <p className="text-primary-100 text-lg">
+                        Track income, expenses, import transactions, and manage automation rules.
+                    </p>
+                </div>
             </div>
 
             {/* Tabs Navigation */}
-            <div className="bg-white p-2 rounded-xl shadow-md border border-gray-100">
+            <div className="card p-2">
                 <div className="flex flex-wrap gap-2">
                     {TABS.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${activeTab === tab.id
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all duration-200 ${activeTab === tab.id
                                 ? 'bg-primary-100 text-primary-700 shadow-sm'
-                                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                                : 'text-surface-500 hover:text-surface-700 hover:bg-surface-100'
                                 }`}
                         >
-                            <span>{tab.icon}</span>
+                            <span className="text-lg">{tab.icon}</span>
                             <span className="hidden sm:inline">{tab.label}</span>
                         </button>
                     ))}
@@ -100,7 +120,10 @@ const Finance = () => {
 
                         {/* Right Column: List */}
                         <div className="lg:col-span-2">
-                            <h3 className="text-xl font-bold text-gray-800 mb-4">Recent Transactions</h3>
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-xl font-display font-bold text-surface-900">Recent Transactions</h3>
+                                <span className="badge-neutral">{transactions.length} total</span>
+                            </div>
                             <TransactionList
                                 transactions={transactions}
                                 onTransactionDeleted={fetchData}
@@ -125,31 +148,33 @@ const Finance = () => {
                     </div>
 
                     {/* Additional Analytics */}
-                    <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4">📈 Quick Insights</h3>
+                    <div className="card p-6">
+                        <h3 className="text-xl font-display font-bold text-surface-900 mb-5 flex items-center gap-2">
+                            <span className="text-2xl">📈</span> Quick Insights
+                        </h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200/50">
-                                <p className="text-sm text-blue-600 font-medium">Total Transactions</p>
-                                <p className="text-2xl font-bold text-blue-700">{transactions.length}</p>
+                            <div className="p-4 rounded-xl bg-gradient-to-br from-accent-50 to-accent-100 border border-accent-200/50">
+                                <p className="text-sm text-accent-600 font-medium">Total Transactions</p>
+                                <p className="text-2xl font-display font-bold text-accent-700 mt-1">{transactions.length}</p>
                             </div>
-                            <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border border-green-200/50">
-                                <p className="text-sm text-green-600 font-medium">Income Transactions</p>
-                                <p className="text-2xl font-bold text-green-700">
+                            <div className="p-4 rounded-xl bg-gradient-to-br from-success-50 to-success-100 border border-success-200/50">
+                                <p className="text-sm text-success-600 font-medium">Income Transactions</p>
+                                <p className="text-2xl font-display font-bold text-success-700 mt-1">
                                     {transactions.filter(t => t.type === 'income').length}
                                 </p>
                             </div>
-                            <div className="bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-xl border border-red-200/50">
-                                <p className="text-sm text-red-600 font-medium">Expense Transactions</p>
-                                <p className="text-2xl font-bold text-red-700">
+                            <div className="p-4 rounded-xl bg-gradient-to-br from-danger-50 to-danger-100 border border-danger-200/50">
+                                <p className="text-sm text-danger-600 font-medium">Expense Transactions</p>
+                                <p className="text-2xl font-display font-bold text-danger-700 mt-1">
                                     {transactions.filter(t => t.type === 'expense').length}
                                 </p>
                             </div>
-                            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200/50">
-                                <p className="text-sm text-purple-600 font-medium">Avg Transaction</p>
-                                <p className="text-2xl font-bold text-purple-700">
-                                    ${transactions.length > 0
-                                        ? (transactions.reduce((sum, t) => sum + parseFloat(t.amount || 0), 0) / transactions.length).toFixed(0)
-                                        : '0'
+                            <div className="p-4 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200/50">
+                                <p className="text-sm text-primary-600 font-medium">Avg Transaction</p>
+                                <p className="text-2xl font-display font-bold text-primary-700 mt-1">
+                                    {transactions.length > 0
+                                        ? formatCurrency(transactions.reduce((sum, t) => sum + parseFloat(t.amount || 0), 0) / transactions.length)
+                                        : '₹0'
                                     }
                                 </p>
                             </div>
@@ -168,34 +193,78 @@ const Finance = () => {
                     <CSVImporter onImportComplete={fetchData} />
 
                     {/* Import Tips */}
-                    <div className="lg:col-span-2 bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200">
-                        <h3 className="text-lg font-bold text-gray-800 mb-4">💡 Import Tips</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div>
-                                <h4 className="font-medium text-gray-700 mb-2">📱 SMS Import</h4>
-                                <ul className="text-gray-600 space-y-1">
-                                    <li>• Copy bank SMS from your phone</li>
-                                    <li>• Paste multiple messages at once</li>
-                                    <li>• Auto-detects Indian bank formats</li>
-                                    <li>• Identifies EMI payments</li>
+                    <div className="lg:col-span-2 card p-6 bg-gradient-to-r from-primary-50/50 via-accent-50/50 to-secondary-50/50">
+                        <h3 className="text-lg font-display font-bold text-surface-900 mb-5 flex items-center gap-2">
+                            <span className="text-2xl">💡</span> Import Tips
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-surface-200">
+                                <h4 className="font-semibold text-surface-800 mb-3 flex items-center gap-2">
+                                    <span className="text-lg">📱</span> SMS Import
+                                </h4>
+                                <ul className="text-sm text-surface-600 space-y-2">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary-500 mt-1">•</span>
+                                        Copy bank SMS from your phone
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary-500 mt-1">•</span>
+                                        Paste multiple messages at once
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary-500 mt-1">•</span>
+                                        Auto-detects Indian bank formats
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-primary-500 mt-1">•</span>
+                                        Identifies EMI payments
+                                    </li>
                                 </ul>
                             </div>
-                            <div>
-                                <h4 className="font-medium text-gray-700 mb-2">📄 CSV Import</h4>
-                                <ul className="text-gray-600 space-y-1">
-                                    <li>• Export from your bank portal</li>
-                                    <li>• Auto-maps common columns</li>
-                                    <li>• Edit categories before import</li>
-                                    <li>• Supports any CSV format</li>
+                            <div className="p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-surface-200">
+                                <h4 className="font-semibold text-surface-800 mb-3 flex items-center gap-2">
+                                    <span className="text-lg">📄</span> CSV Import
+                                </h4>
+                                <ul className="text-sm text-surface-600 space-y-2">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-accent-500 mt-1">•</span>
+                                        Export from your bank portal
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-accent-500 mt-1">•</span>
+                                        Auto-maps common columns
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-accent-500 mt-1">•</span>
+                                        Edit categories before import
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-accent-500 mt-1">•</span>
+                                        Supports any CSV format
+                                    </li>
                                 </ul>
                             </div>
-                            <div>
-                                <h4 className="font-medium text-gray-700 mb-2">🔄 After Import</h4>
-                                <ul className="text-gray-600 space-y-1">
-                                    <li>• Review imported transactions</li>
-                                    <li>• Create rules for auto-categorization</li>
-                                    <li>• Check analytics for insights</li>
-                                    <li>• Delete duplicates if needed</li>
+                            <div className="p-4 bg-white/60 backdrop-blur-sm rounded-xl border border-surface-200">
+                                <h4 className="font-semibold text-surface-800 mb-3 flex items-center gap-2">
+                                    <span className="text-lg">🔄</span> After Import
+                                </h4>
+                                <ul className="text-sm text-surface-600 space-y-2">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-secondary-500 mt-1">•</span>
+                                        Review imported transactions
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-secondary-500 mt-1">•</span>
+                                        Create rules for auto-categorization
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-secondary-500 mt-1">•</span>
+                                        Check analytics for insights
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-secondary-500 mt-1">•</span>
+                                        Delete duplicates if needed
+                                    </li>
                                 </ul>
                             </div>
                         </div>
