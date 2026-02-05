@@ -24,24 +24,17 @@ const Home = () => {
             gradient: 'from-secondary-500 to-secondary-700',
         },
         {
-            icon: '🎯',
-            title: 'Financial Goals',
-            description: 'Set targets, track progress, and achieve your financial milestones.',
+            icon: '💵',
+            title: 'Multiple Income Streams',
+            description: 'Track and analyze income from various sources - salary, freelance, investments, and more.',
             gradient: 'from-success-500 to-success-700',
         },
-    ];
-
-    const stats = [
-        { value: '10K+', label: 'Active Users' },
-        { value: '₹50Cr+', label: 'Tracked' },
-        { value: '99.9%', label: 'Uptime' },
-        { value: '4.9★', label: 'Rating' },
     ];
 
     return (
         <div className="relative">
             {/* Hero Section */}
-            <section className="relative py-20 lg:py-32 overflow-hidden">
+            <section className="relative py-12 lg:py-20 overflow-hidden">
                 {/* Decorative Elements */}
                 <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/20 rounded-full blur-3xl animate-float"></div>
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
@@ -49,13 +42,13 @@ const Home = () => {
 
                 <div className="relative z-10 text-center max-w-5xl mx-auto px-4">
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-medium mb-8 animate-fade-in-down">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-700 text-sm font-medium mb-6 animate-fade-in-down">
                         <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
                         Your Personal Finance Command Center
                     </div>
 
                     {/* Main Heading */}
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-surface-900 mb-6 animate-fade-in leading-tight">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-surface-900 mb-5 animate-fade-in leading-tight">
                         Take Control of Your{' '}
                         <span className="bg-gradient-to-r from-primary-600 via-accent-500 to-secondary-500 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-shift">
                             Financial Future
@@ -63,8 +56,8 @@ const Home = () => {
                     </h1>
 
                     {/* Subheading */}
-                    <p className="text-xl md:text-2xl text-surface-600 mb-10 max-w-3xl mx-auto animate-fade-in-up leading-relaxed" style={{ animationDelay: '0.2s' }}>
-                        Track expenses, manage investments, and achieve your financial goals with a beautifully designed,
+                    <p className="text-lg md:text-xl text-surface-600 mb-8 max-w-3xl mx-auto animate-fade-in-up leading-relaxed" style={{ animationDelay: '0.2s' }}>
+                        Track expenses, manage investments, and monitor multiple income streams with a beautifully designed,
                         all-in-one dashboard built for the modern Indian investor.
                     </p>
 
@@ -110,30 +103,8 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Stats Section */}
-            <section className="py-12 border-y border-surface-200 bg-white/50 backdrop-blur-sm">
-                <div className="max-w-6xl mx-auto px-4">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {stats.map((stat, index) => (
-                            <div
-                                key={stat.label}
-                                className="text-center animate-fade-in-up"
-                                style={{ animationDelay: `${index * 0.1}s` }}
-                            >
-                                <div className="text-3xl md:text-4xl font-display font-bold bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent">
-                                    {stat.value}
-                                </div>
-                                <div className="text-sm text-surface-500 font-medium mt-1">
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* Features Section */}
-            <section id="features" className="py-24">
+            <section id="features" className="py-20">
                 <div className="max-w-6xl mx-auto px-4">
                     {/* Section Header */}
                     <div className="text-center mb-16">
@@ -173,7 +144,7 @@ const Home = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-24 relative overflow-hidden">
+            <section className="py-20 relative overflow-hidden">
                 {/* Background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900"></div>
                 <div className="absolute inset-0 bg-dots-pattern opacity-20"></div>
@@ -188,7 +159,7 @@ const Home = () => {
                         Financial Journey?
                     </h2>
                     <p className="text-xl text-primary-100 mb-10 max-w-2xl mx-auto">
-                        Join thousands of Indians who are already using ALTA-FI to build wealth and achieve financial freedom.
+                        Start tracking your finances, investments, and income streams today with ALTA-FI.
                     </p>
 
                     {!currentUser && (
@@ -203,26 +174,9 @@ const Home = () => {
                         </Link>
                     )}
 
-                    {/* Trust badges */}
-                    <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-primary-200 text-sm">
-                        <div className="flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                            <span>Bank-grade Security</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                            </svg>
-                            <span>Data Privacy</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-                            </svg>
-                            <span>Lightning Fast</span>
-                        </div>
+                    {/* Simple tagline instead of fake trust badges */}
+                    <div className="mt-12 text-primary-200 text-sm">
+                        <p>Built for the modern Indian investor 🇮🇳</p>
                     </div>
                 </div>
             </section>

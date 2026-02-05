@@ -23,9 +23,9 @@ const Layout = ({ children }) => {
                 </div>
             </main>
 
-            {/* Footer */}
+            {/* Footer - Simplified */}
             <footer className="relative z-10 mt-auto border-t border-surface-200 bg-white/50 backdrop-blur-sm">
-                <div className="container mx-auto px-4 lg:px-8 py-8">
+                <div className="container mx-auto px-4 lg:px-8 py-6">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         {/* Logo & Copyright */}
                         <div className="flex items-center gap-3">
@@ -36,13 +36,6 @@ const Layout = ({ children }) => {
                                 <span className="font-display font-semibold text-surface-800">ALTA-FI</span>
                                 <p className="text-xs text-surface-500">© 2026 All rights reserved</p>
                             </div>
-                        </div>
-
-                        {/* Links */}
-                        <div className="flex items-center gap-6 text-sm">
-                            <a href="#" className="text-surface-500 hover:text-primary-600 transition-colors">Privacy</a>
-                            <a href="#" className="text-surface-500 hover:text-primary-600 transition-colors">Terms</a>
-                            <a href="#" className="text-surface-500 hover:text-primary-600 transition-colors">Support</a>
                         </div>
 
                         {/* Built with love */}

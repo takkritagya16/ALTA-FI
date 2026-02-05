@@ -40,12 +40,12 @@ const Header = () => {
     return (
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-white/90 backdrop-blur-xl shadow-lg border-b border-surface-100'
-                    : 'bg-white/70 backdrop-blur-md'
+                ? 'bg-white/90 backdrop-blur-xl shadow-lg border-b border-surface-100'
+                : 'bg-white/70 backdrop-blur-md'
                 }`}
         >
             <nav className="container mx-auto px-4 lg:px-8">
-                <div className="flex items-center justify-between h-16 lg:h-20">
+                <div className="flex items-center justify-between h-14 lg:h-16">
                     {/* Logo */}
                     <Link
                         to="/"
