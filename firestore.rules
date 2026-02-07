@@ -32,6 +32,13 @@ service cloud.firestore {
       allow update, delete: if isAuthenticated() && request.auth.uid == resource.data.userId;
     }
     
+    // Goals collection (for financial goals feature)
+    match /goals/{goalId} {
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId;
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if isAuthenticated() && request.auth.uid == resource.data.userId;
+    }
+    
     // Portfolio summary collection
     match /portfolios/{userId} {
       allow read, write: if isOwner(userId);

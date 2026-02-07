@@ -93,7 +93,7 @@ const IncomeStreams = ({ transactions }) => {
                     </div>
                     <div className="text-right">
                         <p className="text-sm text-gray-500">Total Income</p>
-                        <p className="text-2xl font-bold text-green-600">${totalIncome.toFixed(2)}</p>
+                        <p className="text-2xl font-bold text-green-600">₹{totalIncome.toLocaleString('en-IN')}</p>
                     </div>
                 </div>
 
@@ -120,7 +120,7 @@ const IncomeStreams = ({ transactions }) => {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <span className="font-bold text-green-600">${item.total.toFixed(2)}</span>
+                                        <span className="font-bold text-green-600">₹{item.total.toLocaleString('en-IN')}</span>
                                         <span className="text-sm text-gray-500 ml-2">{percentage}%</span>
                                     </div>
                                 </div>
@@ -164,10 +164,10 @@ const IncomeStreams = ({ transactions }) => {
                                 <YAxis
                                     tick={{ fontSize: 12, fill: '#6b7280' }}
                                     axisLine={{ stroke: '#e5e7eb' }}
-                                    tickFormatter={(value) => `$${value}`}
+                                    tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`}
                                 />
                                 <Tooltip
-                                    formatter={(value) => [`$${value.toFixed(2)}`, 'Income']}
+                                    formatter={(value) => [`₹${value.toLocaleString('en-IN')}`, 'Income']}
                                     contentStyle={{
                                         backgroundColor: 'white',
                                         border: '1px solid #e5e7eb',
@@ -206,7 +206,7 @@ const IncomeStreams = ({ transactions }) => {
                 <div className="bg-gradient-to-br from-teal-500 to-teal-600 p-4 rounded-xl text-white">
                     <p className="text-teal-100 text-sm">Avg per Source</p>
                     <p className="text-xl font-bold">
-                        ${(totalIncome / Math.max(incomeData.length, 1)).toFixed(0)}
+                        ₹{(totalIncome / Math.max(incomeData.length, 1)).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                     </p>
                 </div>
                 <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 p-4 rounded-xl text-white">
