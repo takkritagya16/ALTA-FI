@@ -4,12 +4,12 @@
  * https://finnhub.io/
  */
 
-// Finnhub free API key - users can replace with their own
-const FINNHUB_API_KEY = 'd60q3o1r01qto1re13p0d60q3o1r01qto1re13pg'; // Replace with actual key from https://finnhub.io/register
+// API keys loaded from environment variables (see .env.example)
+const FINNHUB_API_KEY = import.meta.env.VITE_FINNHUB_API_KEY || '';
 const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
 
 // Alpha Vantage as backup
-const ALPHA_VANTAGE_API_KEY = 'demo';
+const ALPHA_VANTAGE_API_KEY = import.meta.env.VITE_ALPHA_VANTAGE_API_KEY || 'demo';
 const ALPHA_VANTAGE_BASE_URL = 'https://www.alphavantage.co/query';
 
 /**
