@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { getTransactions, getFinancialSummary } from '../services/finance';
 import { getRules } from '../services/rules';
+import { getGoals, calculateGoalInsights } from '../services/goals';
 import DashboardCharts from '../components/finance/DashboardCharts';
 
 const Dashboard = () => {
@@ -11,6 +12,7 @@ const Dashboard = () => {
     const [transactions, setTransactions] = useState([]);
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [rulesCount, setRulesCount] = useState(0);
+    const [goals, setGoals] = useState([]);
     const [loading, setLoading] = useState(true);
 
     // Calculate monthly comparison
@@ -78,6 +80,12 @@ const Dashboard = () => {
             const rulesResult = await getRules(currentUser.uid);
             if (rulesResult.success) {
                 setRulesCount(rulesResult.rules.length);
+            }
+
+            // Fetch goals
+            const goalsResult = await getGoals(currentUser.uid);
+            if (goalsResult.success) {
+                setGoals(goalsResult.goals);
             }
         } catch (error) {
             console.error('Error fetching dashboard data:', error);
@@ -212,25 +220,30 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Active Rules */}
-                <div className="card p-6 group">
+                {/* Active Goals */}
+                <Link to="/finance" className="card p-6 group hover:shadow-lg transition-all">
                     <div className="flex items-start justify-between">
                         <div>
-                            <p className="stat-label">Active Rules</p>
+                            <p className="stat-label">Active Goals</p>
                             <p className="text-3xl font-display font-bold mt-2 text-accent-600">
-                                {rulesCount}
+                                {goals.filter(g => g.status !== 'completed' && g.currentAmount < g.targetAmount).length}
                             </p>
                         </div>
                         <div className="p-3 rounded-xl bg-gradient-to-br from-accent-100 to-accent-200 group-hover:scale-110 transition-transform">
                             <svg className="w-7 h-7 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
                     </div>
                     <div className="mt-4 pt-4 border-t border-surface-100">
-                        <span className="text-sm text-surface-500">Auto-categorization</span>
+                        <span className="text-sm text-surface-500 flex items-center gap-1">
+                            🎯 Financial Goals
+                            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </span>
                     </div>
-                </div>
+                </Link>
             </div>
 
             {/* Monthly Comparison Cards */}

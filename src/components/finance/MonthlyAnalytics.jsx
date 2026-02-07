@@ -91,7 +91,7 @@ const MonthlyAnalytics = ({ transactions }) => {
                     <p className="font-bold text-gray-800 mb-2">{label}</p>
                     {payload.map((entry, index) => (
                         <p key={index} style={{ color: entry.color }} className="text-sm font-medium">
-                            {entry.name}: ${entry.value?.toFixed(2) || '0.00'}
+                            {entry.name}: ₹{entry.value?.toLocaleString('en-IN') || '0'}
                         </p>
                     ))}
                 </div>
@@ -129,7 +129,7 @@ const MonthlyAnalytics = ({ transactions }) => {
                                     {monthlyChanges.incomeChange >= 0 ? '+' : ''}{monthlyChanges.incomeChange.toFixed(1)}%
                                 </p>
                                 <p className="text-emerald-100 text-xs mt-2">
-                                    ${monthlyChanges.previous.income.toFixed(0)} → ${monthlyChanges.current.income.toFixed(0)}
+                                    ₹{monthlyChanges.previous.income.toLocaleString('en-IN')} → ₹{monthlyChanges.current.income.toLocaleString('en-IN')}
                                 </p>
                             </div>
                             <div className={`p-3 rounded-xl ${monthlyChanges.incomeChange >= 0 ? 'bg-white/20' : 'bg-red-400/30'}`}>
@@ -155,7 +155,7 @@ const MonthlyAnalytics = ({ transactions }) => {
                                     {monthlyChanges.expenseChange >= 0 ? '+' : ''}{monthlyChanges.expenseChange.toFixed(1)}%
                                 </p>
                                 <p className="text-rose-100 text-xs mt-2">
-                                    ${monthlyChanges.previous.expense.toFixed(0)} → ${monthlyChanges.current.expense.toFixed(0)}
+                                    ₹{monthlyChanges.previous.expense.toLocaleString('en-IN')} → ₹{monthlyChanges.current.expense.toLocaleString('en-IN')}
                                 </p>
                             </div>
                             <div className={`p-3 rounded-xl ${monthlyChanges.expenseChange <= 0 ? 'bg-white/20' : 'bg-red-400/30'}`}>
@@ -181,7 +181,7 @@ const MonthlyAnalytics = ({ transactions }) => {
                                     {monthlyChanges.netChange >= 0 ? '+' : ''}{monthlyChanges.netChange.toFixed(1)}%
                                 </p>
                                 <p className="text-violet-100 text-xs mt-2">
-                                    ${monthlyChanges.previous.net.toFixed(0)} → ${monthlyChanges.current.net.toFixed(0)}
+                                    ₹{monthlyChanges.previous.net.toLocaleString('en-IN')} → ₹{monthlyChanges.current.net.toLocaleString('en-IN')}
                                 </p>
                             </div>
                             <div className={`p-3 rounded-xl ${monthlyChanges.netChange >= 0 ? 'bg-white/20' : 'bg-red-400/30'}`}>
@@ -230,7 +230,7 @@ const MonthlyAnalytics = ({ transactions }) => {
                             <YAxis
                                 tick={{ fontSize: 12, fill: '#6b7280' }}
                                 axisLine={{ stroke: '#e5e7eb' }}
-                                tickFormatter={(value) => `$${value}`}
+                                tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`}
                             />
                             <Tooltip content={<CustomTooltip />} />
                             <Legend />
@@ -277,7 +277,7 @@ const MonthlyAnalytics = ({ transactions }) => {
                             <YAxis
                                 tick={{ fontSize: 12, fill: '#6b7280' }}
                                 axisLine={{ stroke: '#e5e7eb' }}
-                                tickFormatter={(value) => `$${value}`}
+                                tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`}
                             />
                             <Tooltip content={<CustomTooltip />} />
                             <Bar
@@ -329,18 +329,18 @@ const MonthlyAnalytics = ({ transactions }) => {
                                     </span>
                                 </td>
                                 <td className="text-right py-3 px-4 text-green-600 font-medium">
-                                    ${month.income.toFixed(2)}
+                                    ₹{month.income.toLocaleString('en-IN')}
                                 </td>
                                 <td className="text-right py-3 px-4 text-red-600 font-medium">
-                                    ${month.expense.toFixed(2)}
+                                    ₹{month.expense.toLocaleString('en-IN')}
                                 </td>
                                 <td className={`text-right py-3 px-4 font-bold ${month.net >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
-                                    {month.net >= 0 ? '+' : ''}${month.net.toFixed(2)}
+                                    {month.net >= 0 ? '+' : ''}₹{month.net.toLocaleString('en-IN')}
                                 </td>
                                 <td className="text-right py-3 px-4">
                                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${month.savingsRate >= 20 ? 'bg-green-100 text-green-700' :
-                                            month.savingsRate >= 0 ? 'bg-yellow-100 text-yellow-700' :
-                                                'bg-red-100 text-red-700'
+                                        month.savingsRate >= 0 ? 'bg-yellow-100 text-yellow-700' :
+                                            'bg-red-100 text-red-700'
                                         }`}>
                                         {month.savingsRate.toFixed(0)}%
                                     </span>

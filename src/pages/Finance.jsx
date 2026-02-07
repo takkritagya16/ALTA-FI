@@ -10,11 +10,13 @@ import IncomeStreams from '../components/finance/IncomeStreams';
 import MonthlyAnalytics from '../components/finance/MonthlyAnalytics';
 import SMSImporter from '../components/finance/SMSImporter';
 import CSVImporter from '../components/finance/CSVImporter';
+import GoalsList from '../components/finance/GoalsList';
 
 const TABS = [
     { id: 'transactions', label: 'Transactions', icon: '💳' },
     { id: 'analytics', label: 'Analytics', icon: '📊' },
     { id: 'income', label: 'Income Streams', icon: '💰' },
+    { id: 'goals', label: 'Goals', icon: '🎯' },
     { id: 'import', label: 'Import', icon: '📥' },
     { id: 'rules', label: 'Rules', icon: '⚙️' },
 ];
@@ -185,6 +187,10 @@ const Finance = () => {
 
             {activeTab === 'income' && (
                 <IncomeStreams transactions={transactions} />
+            )}
+
+            {activeTab === 'goals' && (
+                <GoalsList transactions={transactions} />
             )}
 
             {activeTab === 'import' && (
