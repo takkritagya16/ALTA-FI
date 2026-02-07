@@ -119,12 +119,40 @@ export const parseSMS = (smsText) => {
         confidence: 0
     };
 
+    // First, explicitly check for credit/debit keywords to determine type
+    // This takes priority over pattern matching to avoid misclassification
+    const lowerText = smsText.toLowerCase();
+    let explicitType = null;
+
+    // Check for explicit credit indicators (income)
+    if (lowerText.includes('credited') ||
+        lowerText.match(/\\bcredit\\b(?!\\s*card)/i) || // "credit" but not "credit card"
+        lowerText.includes('received') ||
+        lowerText.includes('deposited')) {
+        explicitType = 'income';
+    }
+    // Check for explicit debit indicators (expense)
+    else if (lowerText.includes('debited') ||
+        lowerText.match(/\\bdebit\\b/i) ||
+        lowerText.includes('spent') ||
+        lowerText.includes('paid') ||
+        lowerText.includes('withdrawn') ||
+        lowerText.includes('purchase')) {
+        explicitType = 'expense';
+    }
+
     // Detect transaction type and amount
-    for (const { type, patterns } of SMS_PATTERNS) {
+    // If we found an explicit type, only search patterns of that type first
+    const orderedPatterns = explicitType
+        ? SMS_PATTERNS.filter(p => p.type === explicitType).concat(SMS_PATTERNS.filter(p => p.type !== explicitType))
+        : SMS_PATTERNS;
+
+    for (const { type, patterns } of orderedPatterns) {
         for (const pattern of patterns) {
             const match = smsText.match(pattern);
             if (match) {
-                result.type = type;
+                // Use explicit type if detected, otherwise use pattern type
+                result.type = explicitType || type;
                 result.amount = parseFloat(match[1].replace(/,/g, ''));
                 result.parsed = true;
                 result.confidence += 40;
@@ -202,8 +230,7 @@ export const parseSMS = (smsText) => {
         }
     }
 
-    // Detect category based on keywords
-    const lowerText = smsText.toLowerCase();
+    // Detect category based on keywords (reusing lowerText from above)
     for (const [category, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
         if (keywords.some(kw => lowerText.includes(kw))) {
             result.category = category;

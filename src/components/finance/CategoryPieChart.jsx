@@ -43,7 +43,7 @@ const CategoryPieChart = ({ transactions, type = 'income' }) => {
                 <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-200">
                     <p className="font-semibold text-gray-800">{item.name}</p>
                     <p className={`font-bold ${type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                        ${item.value.toFixed(2)}
+                        ₹{item.value.toLocaleString('en-IN')}
                     </p>
                     <p className="text-sm text-gray-500">{percentage}% of total</p>
                 </div>
@@ -59,7 +59,7 @@ const CategoryPieChart = ({ transactions, type = 'income' }) => {
                     {type === 'income' ? '💰 Income' : '💸 Expense'} by Category
                 </h3>
                 <span className={`text-xl font-bold ${type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                    ${total.toFixed(2)}
+                    ₹{total.toLocaleString('en-IN')}
                 </span>
             </div>
 
@@ -112,7 +112,7 @@ const CategoryPieChart = ({ transactions, type = 'income' }) => {
                             <div className="flex items-center gap-4">
                                 <span className="text-gray-500">{percentage}%</span>
                                 <span className={`font-medium ${type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                                    ${item.value.toFixed(2)}
+                                    ₹{item.value.toLocaleString('en-IN')}
                                 </span>
                             </div>
                         </div>

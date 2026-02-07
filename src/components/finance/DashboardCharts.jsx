@@ -79,7 +79,7 @@ const DashboardCharts = ({ transactions }) => {
                     <p className="font-semibold text-gray-800">{label}</p>
                     {payload.map((entry, index) => (
                         <p key={index} style={{ color: entry.color }} className="font-medium">
-                            {entry.name}: ${entry.value?.toFixed(0) || '0'}
+                            {entry.name}: ₹{entry.value?.toLocaleString('en-IN') || '0'}
                         </p>
                     ))}
                 </div>
@@ -93,7 +93,7 @@ const DashboardCharts = ({ transactions }) => {
             <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-semibold text-gray-700">{title}</h4>
                 <span className={`text-sm font-bold ${title.includes('Income') ? 'text-green-600' : 'text-red-600'}`}>
-                    ${total.toFixed(0)}
+                    ₹{total.toLocaleString('en-IN')}
                 </span>
             </div>
             {data.length > 0 ? (
@@ -126,7 +126,7 @@ const DashboardCharts = ({ transactions }) => {
                                     style={{ backgroundColor: colors[index % colors.length] }}
                                 />
                                 <span className="text-gray-600 truncate flex-1">{item.name}</span>
-                                <span className="text-gray-800 font-medium">${item.value.toFixed(0)}</span>
+                                <span className="text-gray-800 font-medium">₹{item.value.toLocaleString('en-IN')}</span>
                             </div>
                         ))}
                     </div>
@@ -197,7 +197,7 @@ const DashboardCharts = ({ transactions }) => {
                                     tick={{ fontSize: 11, fill: '#6b7280' }}
                                     axisLine={false}
                                     tickLine={false}
-                                    tickFormatter={(value) => `$${value}`}
+                                    tickFormatter={(value) => `₹${value.toLocaleString('en-IN')}`}
                                     width={50}
                                 />
                                 <Tooltip content={<CustomTooltip />} />
